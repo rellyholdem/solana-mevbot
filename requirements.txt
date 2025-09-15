@@ -1,0 +1,11 @@
+aiogram==3.4.1
+aiohttp==3.9.5
+aiofiles==23.2.1
+python-dotenv==1.0.1
+nextcloud-api-wrapper==1.1.0
+reportlab==4.2.2
+markdown==3.7
+pydub==0.25.1
+Pillow==10.4.0
+tenacity==9.0.0
+pdfkit==1.0.0
