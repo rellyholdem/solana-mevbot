@@ -1,3 +1,75 @@
+MIREA Lectures Bot (EOSO-01-25)
+
+Quick start
+
+1) System setup (Ubuntu):
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y python3 python3-venv python3-pip ffmpeg fonts-dejavu-core
+sudo apt install -y wkhtmltopdf
+cd /root
+mkdir -p /root/mirea-bot && cd /root/mirea-bot
+cp -r /workspace/* .
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+2) Environment
+
+- Edit `.env` if needed (tokens, NextCloud creds already filled based on spec).
+
+3) Run locally
+
+```bash
+source venv/bin/activate
+python main.py
+```
+
+4) Systemd service
+
+Create `/etc/systemd/system/mirea-bot.service`:
+
+```ini
+[Unit]
+Description=MIREA Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/mirea-bot
+Environment=PATH=/root/mirea-bot/venv/bin
+ExecStart=/root/mirea-bot/venv/bin/python main.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable mirea-bot
+sudo systemctl start mirea-bot
+sudo systemctl status mirea-bot -n 50 | cat
+```
+
+Notes
+
+- Group chats: add the bot into the group, post any message to see the library pinned-by-recency (bot deletes previous library and reposts). Use the "Обновить" inline button to refresh.
+- Private chat: use Start; buttons for Refresh, Add file; follow the flow for discipline -> upload -> lesson type -> topic.
+- Audio: only first audio per session is used; others auto-dropped silently.
+- Scan: in upload, choose "Скан" to send photos; upon "Готово" a PDF is built and added both to the lesson folder and discipline's conspects.
+- Public links: NextCloud shares are created with edit rights for each discipline root.
+
+Dependencies
+
+- wkhtmltopdf is required for high-quality PDF rendering with MathJax support. If rendering fails, fallback text renderer is used.
+
 
   
 # Solana-Mevbot
