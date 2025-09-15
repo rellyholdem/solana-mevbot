@@ -1,5 +1,5 @@
 from aiogram import Router, F
-from aiogram.filters import ChatTypeFilter, CommandStart, Command
+from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
@@ -30,7 +30,7 @@ class UploadStates(StatesGroup):
 
 
 router = Router()
-router.message.filter(ChatTypeFilter(["private"]))
+router.message.filter(F.chat.type == "private")
 
 
 @router.message(CommandStart())

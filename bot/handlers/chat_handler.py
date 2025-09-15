@@ -3,7 +3,6 @@ from typing import Dict, Optional
 
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
-from aiogram.filters import ChatTypeFilter
 
 from templates.messages import build_library_message
 from bot.keyboards.inline import build_group_library_keyboard
@@ -12,7 +11,7 @@ from config import TARGET_GROUP_CHAT_ID
 
 
 router = Router()
-router.message.filter(ChatTypeFilter(["group", "supergroup"]))
+router.message.filter(F.chat.type.in_({"group", "supergroup"}))
 
 _last_message_id_by_chat: Dict[int, int] = {}
 
